@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Library.Data;
 using Library.Models;
 using Library.Services;
+using Library.Interfaces;
 
 namespace Library
 {
@@ -37,6 +38,11 @@ namespace Library
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+            services.AddSingleton(Configuration);
+            services.AddScoped<ILibraryAsset, LibraryAssetService>();
+            services.AddScoped<ICheckOut, CheckOutService>();
+            services.AddScoped<IPatron, PatronService>();
+            services.AddScoped<ILibraryBranch, LibraryBranchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

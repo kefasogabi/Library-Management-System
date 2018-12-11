@@ -1,0 +1,63 @@
+﻿@model Library.ViewModel.Branch.BranchIndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var Branch in Model.Branches)
+{
+    <div class="container">
+        <div class="header clearfix detailHeading">
+            <h2 class="text-muted">Library Information</h2>
+        </div>
+        <div class="jumbotron">
+            <div class="row">
+                <img src="@Branch.ImageUrl" />
+            </div>
+            <div class="row branchInfo">
+                <div class="col-md-8">
+                    <div>
+                        <h2>@Branch.BranchName</h2>
+                        <div class="branchContact">
+                            <div id="branchAddress">Address: @Branch.Address</div>
+                            <div id="branchTel">Telephone: @Branch.Telephone</div>
+                        </div>
+                        <div id="branchDescription">
+                            <p class="caption">@Branch.Description</p>
+                        </div>
+                        <div id="branchHours">
+                            <ul>
+                                @foreach (var day in @Branch.HoursOpen)
+                                {
+                                    <li>@day</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 detailInfo">
+                    <table>
+                        <tr>
+                            <td class="itemLabel">Date Opened: </td>
+                            <td class="itemValue">@Branch.BranchOpenedDate</td>
+                        </tr>
+                        <tr>
+                            <td class="itemLabel">Number Of Students: </td>
+                            <td class="itemValue">@Branch.NumberOfPatrons</td>
+                        </tr>
+                        <tr>
+                            <td class="itemLabel">Number of Assets: </td>
+                            <td class="itemValue">@Branch.NumberOfAssets</td>
+                        </tr>
+                        <tr>
+                            <td class="itemLabel">Value of Assets: </td>
+                            <td class="itemValue">₦@Branch.TotalAssetValue</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

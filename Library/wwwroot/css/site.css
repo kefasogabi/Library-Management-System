@@ -1,6 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background: url('/images/library.jpg') fixed no-repeat !important;
+    background: fixed !important;
+    background-size: cover !important;
+    background-position: center !important;
 }
 
 /* Wrapping element */

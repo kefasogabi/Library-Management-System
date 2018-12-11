@@ -1,0 +1,80 @@
+﻿@model Library.ViewModel.Catalog.AssetModel
+@{
+    ViewData["Title"] = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="header clearfix detailHeading">
+        <h2 align="center" class="text-muted">Edit Book</h2>
+        <a asp-controller="Asset" asp-action="Index"><i class="fas fa-arrow-circle-left fa-3x" style="color:black"></i></a>
+    </div>
+    <a asp-controller="Catalog" class="btn btn-info" asp-action="Index"><span class="glyphicon glyphicon-arrow-left">Back</span></a>
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-4 col-md-offset-4">
+            <div class="form-group">
+                <label asp-for="Tittle" class="control-label">Title</label>
+                <input asp-for="Tittle" class="form-control" maxlength="50" />
+                <span asp-validation-for="Tittle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label">Year</label>
+                <input asp-for="Year" class="form-control" min="1500" max="2018" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label">Cost</label>
+                <div class="input-group">
+                    <div class="input-group-addon">₦</div>
+                    <input type="text" asp-for="Cost" min="0.00" max="999.99" class="form-control" id="exampleInputAmount" placeholder="Amount">
+                    <div class="input-group-addon">.00</div>
+                </div>
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="ImageUrl" class="control-label">Image</label>
+                <input asp-for="ImageUrl" class="form-control" type="file" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label">Image</label>
+                <input type="file" name="pic" asp-for="ImageUrl" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfCopies" class="control-label">Copies</label>
+                <input asp-for="NumberOfCopies" class="form-control" min="1" max="100" />
+                <span asp-validation-for="NumberOfCopies" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ISBN" class="control-label">ISBN </label>
+                <input asp-for="ISBN" class="form-control" placeholder="1234567890123" maxlength="13" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label">Author</label>
+                <input asp-for="Author" class="form-control" maxlength="35" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+
+            @Html.HiddenFor(m => m.Id)
+            @*<div class="form-group">
+                    <label asp-for="LocationId" class="control-label">Location Code</label>
+                    <input asp-for="LocationId" class="form-control" min="1" max="3" placeholder="1 for Providence, 2 for Fox Point, 3 for Washington Park" />
+                    <span asp-validation-for="LocationId" class="text-danger"></span>
+                </div>*@
+
+
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-lg btn-success" />
+            </div>
+        </div>
+    </form>
+</div>
