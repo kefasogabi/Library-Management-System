@@ -11,6 +11,8 @@ namespace Library.Interfaces
         IEnumerable<LibraryAsset> GetAll();
         LibraryAsset GetById(int id);
         void Add(LibraryAsset newAsset);
+        void Complete();
+        void Remove(LibraryAsset asset);
         string GetAuthorOrDirector(int id);
         string GetType(int id);
         string GetTitle(int id);

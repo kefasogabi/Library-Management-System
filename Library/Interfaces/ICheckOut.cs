@@ -11,6 +11,7 @@ namespace Library.Interfaces
         IEnumerable<CheckOut> GetAll();
         CheckOut Get(int id);
         void Add(CheckOut newCheckOut);
+        void Complete();
         IEnumerable<CheckOutHistory> GetCheckOutHistory(int id);
         void PlaceHold(int assetId, int libraryCardId);
         void CheckOutItem(int id, int libraryCardId);

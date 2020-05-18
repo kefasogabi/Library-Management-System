@@ -13,6 +13,7 @@ namespace Library.Interfaces
         IEnumerable<LibraryAsset> GetAssets(int branchId);
         LibraryBranch Get(int branchId);
         void Add(LibraryBranch newBranch);
+        void Complete();
         IEnumerable<string> GetBranchHours(int branchId);
         bool IsBranchOpen(int branchId);
         int GetAssetCount(int branchId);

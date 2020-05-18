@@ -21,17 +21,14 @@ namespace Library.Controllers
     {
         private readonly ILibraryAsset assets;
         private readonly ICheckOut checkOut;
-        private readonly ApplicationDbContext context;
         private readonly IHostingEnvironment ho;
 
         public CatalogController( ILibraryAsset assets,
                                     ICheckOut checkOut,
-                                    ApplicationDbContext context,
                                     IHostingEnvironment ho)
         {
             this.assets = assets;
             this.checkOut = checkOut;
-            this.context = context;
             this.ho = ho;
         }
         public IActionResult Index()
@@ -156,7 +153,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind] LibraryAsset libraryAsset, IFormFile pic)
+        public IActionResult Create([Bind] LibraryAsset libraryAsset, IFormFile pic)
         {
             if(!ModelState.IsValid)
             {
@@ -175,7 +172,8 @@ namespace Library.Controllers
                 libraryAsset.LocationId = 1;
                 libraryAsset.StatusId = 3;
                 libraryAsset.Discriminator = "Book";
-                context.Add(libraryAsset);
+                assets.Add(libraryAsset);
+                assets.Complete();
             }
             else
             {
@@ -183,7 +181,7 @@ namespace Library.Controllers
                 var fileName = Path.Combine(ho.WebRootPath + "\\images\\", Path.GetFileName(pic.FileName));
                 pic.CopyTo(new FileStream(fileName, FileMode.Create));
 
-                var assetInDb = context.LibraryAssets.SingleOrDefault(a => a.Id == libraryAsset.Id);
+                var assetInDb = assets.GetById(libraryAsset.Id);
                 assetInDb.Author = libraryAsset.Author;
                 assetInDb.ISBN = libraryAsset.ISBN;
                 assetInDb.Cost = libraryAsset.Cost;
@@ -192,16 +190,15 @@ namespace Library.Controllers
                 assetInDb.Year = libraryAsset.Year;
                 assetInDb.ImageUrl = "/images/" + Path.GetFileName(pic.FileName);
             }
-            
 
-            await context.SaveChangesAsync();
+            assets.Complete();
 
             return RedirectToAction("Index", "Catalog");
         }
 
         public IActionResult Edit(int id)
         {
-            var asset = context.LibraryAssets.SingleOrDefault(a => a.Id == id);
+            var asset = assets.GetById(id);
             
             if(asset == null)
             {
@@ -223,9 +220,9 @@ namespace Library.Controllers
             return View("Edit", viewModel);
         }
 
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            var asset = context.LibraryAssets.SingleOrDefault(a => a.Id == id);
+            var asset = assets.GetById(id);
 
             if (asset == null)
             {
@@ -250,17 +247,17 @@ namespace Library.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult ConfirmDelete( int id)
         {
-            var asset = context.LibraryAssets.SingleOrDefault(a => a.Id == id);
+            var asset = assets.GetById(id);
 
             if (asset == null)
                 return NotFound();
-           
 
 
-            
 
-            context.Remove(asset);
-            context.SaveChanges();
+
+
+            assets.Remove(asset);
+            assets.Complete();
 
             return RedirectToAction("Index", "Catalog");
         }

@@ -21,6 +21,10 @@ namespace Library.Services
         public void Add(LibraryBranch newBranch)
         {
             context.Add(newBranch);
+        }
+
+        public void Complete()
+        {
             context.SaveChanges();
         }
 

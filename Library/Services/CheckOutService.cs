@@ -21,7 +21,10 @@ namespace Library.Services
 
         public void Add(CheckOut newCheckOut)
         {
-            context.Add(newCheckOut);
+            context.Add(newCheckOut);    
+        }
+        public void Complete()
+        {
             context.SaveChanges();
         }
         public CheckOut Get(int id)

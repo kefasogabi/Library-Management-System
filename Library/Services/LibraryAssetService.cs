@@ -21,9 +21,16 @@ namespace Library.Services
         public void Add(LibraryAsset newAsset)
         {
             context.Add(newAsset);
+        }
+        public void Complete()
+        {
             context.SaveChanges();
         }
 
+        public void Remove(LibraryAsset asset)
+        {
+            context.Remove(asset);
+        }
         public IEnumerable<LibraryAsset> GetAll()
         {
             return context.LibraryAssets

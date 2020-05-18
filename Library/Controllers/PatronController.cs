@@ -15,12 +15,10 @@ namespace Library.Controllers
     public class PatronController : Controller
     {
         private readonly IPatron patron;
-        private readonly ApplicationDbContext context;
 
-        public PatronController( IPatron patron, ApplicationDbContext context)
+        public PatronController(IPatron patron)
         {
             this.patron = patron;
-            this.context = context;
         }
         public IActionResult Index()
         {
@@ -92,16 +90,16 @@ namespace Library.Controllers
                     Created = DateTime.Now,
                     Fees = 0
                 };
-                context.Add(card);
-               
-                context.SaveChanges();
-                patrons.LibraryCardId = context.LibraryCards.Last().Id;
-                patrons.HomeLibraryBranch = context.LibraryBranches.Last();
-                context.Add(patrons);
+                patron.AddCard(card);
+
+                patron.Complete();
+                patrons.LibraryCardId = patron.GetCard();
+                patrons.HomeLibraryBranch = patron.GetBranch();
+                patron.Add(patrons);
             }
             else
             {
-                var patronInDb = context.Patrons.SingleOrDefault(p => p.Id == patrons.Id);
+                var patronInDb = patron.Get(patrons.Id);
                 patronInDb.Address = patrons.Address;
                 patronInDb.DateOfBirth = patrons.DateOfBirth;
                 patronInDb.FirstName = patrons.FirstName;
@@ -110,8 +108,8 @@ namespace Library.Controllers
                 patronInDb.TelephoneNumber = patrons.TelephoneNumber;
             }
 
-          
-            context.SaveChanges();
+
+            patron.Complete();
 
             return RedirectToAction("Index", "Patron");
            
@@ -120,36 +118,36 @@ namespace Library.Controllers
         
         public IActionResult Edit( int id)
         {
-            var patron = context.Patrons.SingleOrDefault(p => p.Id == id);
+            var patro = patron.Get(id);
 
-            if(patron == null)
+            if (patro == null)
             {
                 return NotFound();
             }
 
-            return View(patron);
+            return View(patro);
         }
 
        
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            var patron = context.Patrons.SingleOrDefault(p => p.Id == id);
+            var patro = patron.Get(id);
 
-            if (patron == null)
+            if (patro == null)
                 return NotFound();
 
            
 
-            return View(patron);
+            return View(patro);
         }
 
         [HttpPost, ActionName("Delete")]
         public IActionResult ConfirmDelete(int id)
         {
-            var patron = context.Patrons.SingleOrDefault(p => p.Id == id);
-           
-            context.Remove(patron);
-            context.SaveChanges();
+            var patro = patron.Get(id);
+
+            patron.Remove(patro);
+            patron.Complete();
 
             return RedirectToAction("Index", "Patron");
         }

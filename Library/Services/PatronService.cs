@@ -18,13 +18,37 @@ namespace Library.Services
             this.context = context;
         }
 
-        public void Add(Models.Patron newPatron)
+        public void Add(Patron newPatron)
         {
             context.Add(newPatron);
+        }
+
+        public void AddCard(LibraryCard card)
+        {
+            context.Add(card);
+        }
+
+        public int GetCard()
+        {
+            return context.LibraryCards.Last().Id;
+        }
+
+        public LibraryBranch GetBranch()
+        {
+            return context.LibraryBranches.Last();
+        }
+
+        public void Complete()
+        {
             context.SaveChanges();
         }
 
-        public Models.Patron Get(int id)
+        public void Remove(Patron patron)
+        {
+            context.Remove(patron);
+        }
+
+        public Patron Get(int id)
         {
             return context.Patrons
                 .Include(a => a.LibraryCard)

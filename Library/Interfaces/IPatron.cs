@@ -11,6 +11,11 @@ namespace Library.Interfaces
         IEnumerable<Patron> GetAll();
         Patron Get(int id);
         void Add(Patron newPatron);
+        void AddCard(LibraryCard card);
+        int GetCard();
+        LibraryBranch GetBranch();
+        void Complete();
+        void Remove(Patron patron);
         IEnumerable<CheckOutHistory> GetCheckOutHistory(int patronId);
         IEnumerable<Hold> GetHolds(int patronId);
         IEnumerable<CheckOut> GetCheckOuts(int id);
